@@ -6,6 +6,8 @@ import java.io.OutputStream;
 
 import javax.swing.JTextField;
 
+import org.htmlparser.util.Translate;
+
 public class DataRD extends Thread{
 	private OutputStream outStream;
 	private InputStream inStream;
@@ -48,14 +50,14 @@ public class DataRD extends Thread{
 		}
 	}
 	public int receive() {
-		int val = 0;
+		String val = "";
 		String temp = "";
 		try {
-			while(val != 40){
-				val = inStream.read()-48;
+			while(!val.equals("X")){
+				val = Translate.decode(inStream.read()+"");
 				System.out.println(val);
-				if(val != 40) {
-					temp += val+"";
+				if(!val.equals("X")) {
+					temp += val;
 				}
 			}
 			return Integer.parseInt(temp);
