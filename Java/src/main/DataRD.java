@@ -6,7 +6,7 @@ import java.io.OutputStream;
 
 import javax.swing.JTextField;
 
-import org.apache.commons.text.StringEscapeUtils;
+import org.jsoup.Jsoup;
 
 public class DataRD extends Thread{
 	private OutputStream outStream;
@@ -54,7 +54,7 @@ public class DataRD extends Thread{
 		String temp = "";
 		try {
 			while(!val.equals("X")){
-				val = StringEscapeUtils.unescapeHtml4(inStream.read()+"");
+				val = Jsoup.parse(inStream.read()+"").text();
 				System.out.println(val);
 				if(!val.equals("X")) {
 					temp += val;
