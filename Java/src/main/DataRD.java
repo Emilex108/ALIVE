@@ -27,9 +27,9 @@ public class DataRD extends Thread{
 		while(true) {
 		send(6);
 		await(200);
-		tfDroite.setText(""+(receive()+48));
-		tfMilieu.setText(""+(receive()+48));
-		tfGauche.setText(""+(receive()+48));
+		tfDroite.setText(receive());
+		tfMilieu.setText(receive());
+		tfGauche.setText(receive());
 		}
 	}
 	
@@ -49,7 +49,7 @@ public class DataRD extends Thread{
 			e.printStackTrace();
 		}
 	}
-	public int receive() {
+	public String receive() {
 		String val = "";
 		String temp = "";
 		try {
@@ -60,10 +60,10 @@ public class DataRD extends Thread{
 					temp += val;
 				}
 			}
-			return Integer.parseInt(temp);
+			return temp;
 		} catch (IOException e) {
 			System.out.println("Problem receiving");
-			return 999999999;
+			return "Error";
 		}
 	}
 }
