@@ -27,9 +27,9 @@ public class DataRD extends Thread{
 		while(true) {
 		send(6);
 		await(200);
-		tfDroite.setText(receive());
-		tfMilieu.setText(receive());
-		tfGauche.setText(receive());
+		receive();
+		receive();
+		receive();
 		}
 	}
 	
@@ -51,8 +51,19 @@ public class DataRD extends Thread{
 	}
 	public String receive() {
 		String val = "";
+		String place = "";
 		try {
 			val = Jsoup.parse(inStream.read()+"").text();
+			place = Jsoup.parse(inStream.read()+"").text();
+			if(place.equals("G")) {
+				tfGauche.setText(val);
+			}else if(place.equals("A")) {
+				tfMilieu.setText(val);
+			}else if(place.equals("D")) {
+				tfDroite.setText(val);
+			}else {
+				System.out.println("VALEUR NON RECONNUE");
+			}
 			System.out.println(val);
 			return val;
 		} catch (IOException e) {
