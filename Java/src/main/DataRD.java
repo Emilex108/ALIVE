@@ -51,16 +51,10 @@ public class DataRD extends Thread{
 	}
 	public String receive() {
 		String val = "";
-		String temp = "";
 		try {
-			while(!val.equals("X")){
-				val = Jsoup.parse(inStream.read()+"").text();
-				System.out.println(val);
-				if(!val.equals("X")) {
-					temp += val;
-				}
-			}
-			return temp;
+			val = Jsoup.parse(inStream.read()+"").text();
+			System.out.println(val);
+			return val;
 		} catch (IOException e) {
 			System.out.println("Problem receiving");
 			return "Error";
