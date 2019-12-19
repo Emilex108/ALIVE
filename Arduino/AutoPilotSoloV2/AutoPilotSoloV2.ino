@@ -174,9 +174,9 @@ boolean collisionGauche(){
 
 void envoyerDistance(){
   Serial.write(getDistance(0));
-  Serial.write('X');
+  Serial.write('G');
   Serial.write(getDistance(1));
-  Serial.write('X');
+  Serial.write('A');
   Serial.write(getDistance(2));
-  Serial.write('X');
+  Serial.write('D');
 }
