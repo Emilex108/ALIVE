@@ -18,6 +18,8 @@ import javax.swing.border.TitledBorder;
 
 import com.fazecast.jSerialComm.SerialPort;
 
+import threads.AutoPilot;
+import threads.DataRD;
 import utillities.TextAreaOutputStream;
 
 import javax.swing.border.LineBorder;
