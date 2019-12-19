@@ -6,7 +6,7 @@ import java.io.OutputStream;
 
 import javax.swing.JTextField;
 
-import org.htmlparser.util.Translate;
+import org.apache.commons.text.StringEscapeUtils;
 
 public class DataRD extends Thread{
 	private OutputStream outStream;
@@ -54,7 +54,7 @@ public class DataRD extends Thread{
 		String temp = "";
 		try {
 			while(!val.equals("X")){
-				val = Translate.decode(inStream.read()+"");
+				val = StringEscapeUtils.unescapeHtml4(inStream.read()+"");
 				System.out.println(val);
 				if(!val.equals("X")) {
 					temp += val;
