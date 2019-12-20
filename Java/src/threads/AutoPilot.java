@@ -10,7 +10,7 @@ public class AutoPilot extends Thread{
 
 	private OutputStream outStream;
 	private InputStream inStream;
-	private String gData,aData,dData;
+	private String gData,aData,dData = "10";
 	private boolean gCollision, aCollision, dCollision;
 	private final int DETECTION = 8;
 	public AutoPilot(OutputStream outStream, InputStream inStream) {
@@ -79,7 +79,7 @@ public class AutoPilot extends Thread{
 			}else if(place.equals("D")) {
 				dData = val;
 			}else {
-				System.out.println("VALEUR NON RECONNUE");
+				System.out.println("VALEUR NON RECONNUE : " + place);
 			}
 			System.out.println(val);
 			return val;
