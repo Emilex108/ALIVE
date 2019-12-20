@@ -20,9 +20,8 @@ public class AutoPilot extends Thread {
 	}
 
 	public void run() {
-
+		send(5);
 		while (true) {
-			send(5);
 			delay(100);
 			receive();
 			receive();
