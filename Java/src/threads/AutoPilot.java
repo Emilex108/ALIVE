@@ -90,22 +90,34 @@ public class AutoPilot extends Thread{
 	}
 
 	private boolean checkgCollision() {
-		if(Integer.parseInt(gData) < DETECTION) {
-			return true;
+		if(!gData.equals(null)) {
+			if(Integer.parseInt(gData) < DETECTION) {
+				return true;
+			}else {
+				return false;
+			}
 		}else {
 			return false;
 		}
 	}
 	private boolean checkaCollision() {
+		if(!aData.equals(null)) {
 		if(Integer.parseInt(aData) < DETECTION) {
 			return true;
 		}else {
 			return false;
 		}
+		}else {
+			return false;
+		}
 	}
 	private boolean checkdCollision() {
+		if(!dData.equals(null)) {
 		if(Integer.parseInt(dData) < DETECTION) {
 			return true;
+		}else {
+			return false;
+		}
 		}else {
 			return false;
 		}
