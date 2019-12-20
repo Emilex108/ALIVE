@@ -90,7 +90,7 @@ public class AutoPilot extends Thread{
 	}
 
 	private boolean checkgCollision() {
-		if(!gData.equals(null)) {
+		if(!(gData == null)) {
 			if(Integer.parseInt(gData) < DETECTION) {
 				return true;
 			}else {
@@ -101,7 +101,7 @@ public class AutoPilot extends Thread{
 		}
 	}
 	private boolean checkaCollision() {
-		if(!aData.equals(null)) {
+		if(!(aData == null)) {
 		if(Integer.parseInt(aData) < DETECTION) {
 			return true;
 		}else {
@@ -112,7 +112,7 @@ public class AutoPilot extends Thread{
 		}
 	}
 	private boolean checkdCollision() {
-		if(!dData.equals(null)) {
+		if(!(dData == null)) {
 		if(Integer.parseInt(dData) < DETECTION) {
 			return true;
 		}else {
