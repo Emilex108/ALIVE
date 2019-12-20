@@ -6,13 +6,14 @@ import java.io.OutputStream;
 
 import org.jsoup.Jsoup;
 
-public class AutoPilot extends Thread{
+public class AutoPilot extends Thread {
 
 	private OutputStream outStream;
 	private InputStream inStream;
-	private String gData,aData,dData = "10";
+	private String gData, aData, dData = "10";
 	private boolean gCollision, aCollision, dCollision;
 	private final int DETECTION = 8;
+
 	public AutoPilot(OutputStream outStream, InputStream inStream) {
 		this.inStream = inStream;
 		this.outStream = outStream;
@@ -20,7 +21,7 @@ public class AutoPilot extends Thread{
 
 	public void run() {
 
-		while(true) {
+		while (true) {
 			send(5);
 			delay(100);
 			receive();
@@ -29,33 +30,33 @@ public class AutoPilot extends Thread{
 			gCollision = checkgCollision();
 			aCollision = checkaCollision();
 			dCollision = checkdCollision();
-			if(dCollision && aCollision && gCollision){
+			if (dCollision && aCollision && gCollision) {
 				send(3);
-			}else if(gCollision && aCollision && !dCollision){
+			} else if (gCollision && aCollision && !dCollision) {
 				send(2);
-			}else if(!gCollision && aCollision && dCollision){
+			} else if (!gCollision && aCollision && dCollision) {
 				send(4);
-			}else if(gCollision && !aCollision && dCollision){
+			} else if (gCollision && !aCollision && dCollision) {
 				send(1);
-			}else if(!gCollision && !aCollision && dCollision){
+			} else if (!gCollision && !aCollision && dCollision) {
 				send(4);
-			}else if (gCollision && !aCollision && !dCollision){
+			} else if (gCollision && !aCollision && !dCollision) {
 				send(2);
-			}else if(!gCollision && !aCollision && !dCollision){
+			} else if (!gCollision && !aCollision && !dCollision) {
 				send(1);
-			}else if(!gCollision && aCollision && !dCollision){
-				if(Integer.parseInt(dData) < Integer.parseInt(gData)){
+			} else if (!gCollision && aCollision && !dCollision) {
+				if (Integer.parseInt(dData) < Integer.parseInt(gData)) {
 					send(4);
-				}else if(Integer.parseInt(gData) < Integer.parseInt(dData)){
+				} else if (Integer.parseInt(gData) < Integer.parseInt(dData)) {
 					send(2);
-				}else{
+				} else {
 					send(3);
 				}
 			}
 		}
 	}
 
-	public void send(int x){
+	public void send(int x) {
 		try {
 			outStream.write(x);
 			outStream.flush();
@@ -70,15 +71,15 @@ public class AutoPilot extends Thread{
 		String val = "";
 		String place = "";
 		try {
-			val = Jsoup.parse(inStream.read()+"").text();
-			place = Jsoup.parse(inStream.read()+"").text();
-			if(place.equals("G")) {
+			val = Jsoup.parse(inStream.read() + "").text();
+			place = Jsoup.parse(inStream.read() + "").text();
+			if (place.equals("G")) {
 				gData = val;
-			}else if(place.equals("A")) {
+			} else if (place.equals("A")) {
 				aData = val;
-			}else if(place.equals("D")) {
+			} else if (place.equals("D")) {
 				dData = val;
-			}else {
+			} else {
 				System.out.println("VALEUR NON RECONNUE : " + place);
 			}
 			System.out.println(val);
@@ -90,35 +91,37 @@ public class AutoPilot extends Thread{
 	}
 
 	private boolean checkgCollision() {
-		if(!(gData == null)) {
-			if(Integer.parseInt(gData) < DETECTION) {
+		if (!(gData == null)) {
+			if (Integer.parseInt(gData) < DETECTION) {
 				return true;
-			}else {
+			} else {
 				return false;
 			}
-		}else {
+		} else {
 			return false;
 		}
 	}
+
 	private boolean checkaCollision() {
-		if(!(aData == null)) {
-		if(Integer.parseInt(aData) < DETECTION) {
-			return true;
-		}else {
-			return false;
-		}
-		}else {
+		if (!(aData == null)) {
+			if (Integer.parseInt(aData) < DETECTION) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
 			return false;
 		}
 	}
+
 	private boolean checkdCollision() {
-		if(!(dData == null)) {
-		if(Integer.parseInt(dData) < DETECTION) {
-			return true;
-		}else {
-			return false;
-		}
-		}else {
+		if (!(dData == null)) {
+			if (Integer.parseInt(dData) < DETECTION) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
 			return false;
 		}
 	}
