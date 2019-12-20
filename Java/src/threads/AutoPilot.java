@@ -20,9 +20,8 @@ public class AutoPilot extends Thread {
 	}
 
 	public void run() {
-
+		send(5);
 		while (true) {
-			send(5);
 			delay(100);
 			receive();
 			receive();
@@ -70,14 +69,18 @@ public class AutoPilot extends Thread {
 	public String receive() {
 		String val = "";
 		String place = "";
+		int placeInt = 0;
 		try {
 			val = Jsoup.parse(inStream.read() + "").text();
 			place = Jsoup.parse(inStream.read() + "").text();
-			if (place.equals("G")) {
+			if(!(place == null)) {
+				placeInt = Integer.parseInt(place);
+			}
+			if (placeInt == 71) {
 				gData = val;
-			} else if (place.equals("A")) {
+			} else if (placeInt == 65) {
 				aData = val;
-			} else if (place.equals("D")) {
+			} else if (placeInt == 68) {
 				dData = val;
 			} else {
 				System.out.println("VALEUR NON RECONNUE : " + place);
