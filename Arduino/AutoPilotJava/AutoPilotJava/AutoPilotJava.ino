@@ -69,7 +69,6 @@ void loop(){
   if(autopilot){
     envoyerDistance();
     delay(50);
-    Serial.println(Serial.read());
   }
 }
 
