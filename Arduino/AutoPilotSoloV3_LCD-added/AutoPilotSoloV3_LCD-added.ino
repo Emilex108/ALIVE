@@ -45,18 +45,38 @@ void setup(){
   Serial.begin(115200);
    // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
-  // Print a message to the LCD.
-  lcd.print("hello, world!");
 }
 
 
 void loop(){
-  
+  lcd.clear();
   // set the cursor to column 0, line 1
   // (note: line 1 is the second row, since counting begins with 0):
-  lcd.setCursor(0, 1);
+  lcd.setCursor(1, 0);
   // print the number of seconds since reset:
-  lcd.print(millis() / 1000);
+  lcd.print("detecion : ");
+
+
+  String toDisplay = "";
+  if(collisionDroite()){
+     toDisplay += "OO";
+  } else {
+    toDisplay += "  ";
+  }
+  if(collisionAvant()){
+     toDisplay += "     OO";
+  } else {
+    toDisplay += "       ";
+  }
+   if(collisionGauche()){
+     toDisplay += "     OO";
+  } else {
+    toDisplay += "       ";
+  }
+  lcd.setCursor(0, 1);
+   lcd.print(toDisplay);
+  delay(50);
+ 
   
   //This makes sure the data of the gyroscope is up to date
   //Checks to see if there are any commands over BT available and that Autopilot hasn't been set ON (TODO Check to replace with Switch)
