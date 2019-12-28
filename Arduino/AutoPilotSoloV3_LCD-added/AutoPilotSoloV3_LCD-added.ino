@@ -72,6 +72,8 @@ void loop(){
       autopilot = true;
     }else if(val == 6){
       envoyerDistance();
+    }else if(val == 7){
+      autopilot = false;
     }
   }
   //AutoPilot script itself
