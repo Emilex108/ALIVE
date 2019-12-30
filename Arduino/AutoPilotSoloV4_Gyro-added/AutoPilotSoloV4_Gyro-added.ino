@@ -55,6 +55,7 @@ void setup(){
   Serial.begin(115200);
    // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
+   lcd.print("calculating...");
    //Wire and mpu are for the gyroscope (angle)
   Wire.begin();
   mpu6050.begin();
@@ -91,7 +92,10 @@ void loop(){
     }else if(val == 7){
       autopilot = false;
     }else if(val == 8){
-      
+      delay(100);
+      val = Serial.read();
+      lcd.print(val);
+      goToAngle(val);
     }
   }
   //AutoPilot script itself
@@ -240,28 +244,33 @@ void displayAngle(){
    lcd.clear();
   // set the cursor to column 0, line 1
   // (note: line 1 is the second row, since counting begins with 0):
-  lcd.setCursor(1, 0);
+  lcd.setCursor(0, 0);
   // print the number of seconds since reset:
   lcd.print("Angle : ");
-  lcd.print(mpu6050.getAccAngleX());
+  lcd.print(mpu6050.getGyroAngleX());
   delay(50);
 }
 
 void goToAngle(double angle){
-  double angleCurrent;
-  double ecart;
-  mpu6050.update();
-  angleCurrent = mpu6050.getGyroAngleX();
-  ecart = 5;
+  for(int i =0 ; i<5 ; i++){
+    delay(10);
+   mpu6050.update();
+  double  angleCurrent = mpu6050.getGyroAngleX();
+  double ecart = 0.5;
   while(!(angleCurrent-ecart <= angle && angle <= angleCurrent+ecart)){
     mpu6050.update();
     angleCurrent = mpu6050.getGyroAngleX();
     if(angleCurrent >= angle){
-      gauche();
+      droite();
+      lcd.setCursor(0, 1);
+      lcd.print("Droite");
     }
     if(angleCurrent <= angle){
-      droite();
+       gauche();
+      lcd.setCursor(0, 1);
+      lcd.print("Gauche");
     }
   }
   arreter();
+  }
 }
