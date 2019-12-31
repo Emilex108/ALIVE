@@ -38,6 +38,7 @@ long b = 0;
 boolean firstForward = true;
 double firstAngle = 0;
 double curvedAngle = 0;
+double steadyAngle = 0;
 
 void setup(){
   //Set pins as outputs or inputs
@@ -76,10 +77,14 @@ void loop(){
     val = Serial.read();
     //1 = Forward, 2 = Right, 3 = Backwards, 4 = Left, 0 = Stop, 5 = Autopilot ON, 6 = Updates Distance Panel
     if(val == 1){
+      mpu6050.update();
+      steadyAngle = mpu6050.getGyroAngleX();
       avancer();
     }else if(val == 2){
       droite();
     }else if(val == 3){
+      mpu6050.update();
+      steadyAngle = mpu6050.getGyroAngleX();
       reculer();
     }else if(val == 4){
       gauche();
@@ -132,12 +137,47 @@ void loop(){
 }
 
 void avancer(){
+  mpu6050.update();
+  double angleCurrent = mpu6050.getGyroAngleX();
+  double ecart = 0.5;
+  while(!(angleCurrent-ecart <= steadyAngle && steadyAngle <= angleCurrent+ecart)){
+    mpu6050.update();
+    angleCurrent = mpu6050.getGyroAngleX();
+    if(angleCurrent >= steadyAngle){
+      droite();
+      lcd.setCursor(0, 1);
+      lcd.print("Droite");
+    }
+    if(angleCurrent <= steadyAngle){
+       gauche();
+      lcd.setCursor(0, 1);
+      lcd.print("Gauche");
+    }
+  }
+  
   analogWrite(motorPin1, SPEED);
   analogWrite(motorPin2, 0);
   analogWrite(motorPin3, 0);
   analogWrite(motorPin4, SPEED);
 }
 void reculer(){
+  mpu6050.update();
+  double angleCurrent = mpu6050.getGyroAngleX();
+  double ecart = 0.5;
+  while(!(angleCurrent-ecart <= steadyAngle && steadyAngle <= angleCurrent+ecart)){
+    mpu6050.update();
+    angleCurrent = mpu6050.getGyroAngleX();
+    if(angleCurrent >= steadyAngle){
+      droite();
+      lcd.setCursor(0, 1);
+      lcd.print("Droite");
+    }
+    if(angleCurrent <= steadyAngle){
+       gauche();
+      lcd.setCursor(0, 1);
+      lcd.print("Gauche");
+    }
+  }
   analogWrite(motorPin1, 0);
   analogWrite(motorPin2, SPEED);
   analogWrite(motorPin3, SPEED);
@@ -255,7 +295,7 @@ void goToAngle(double angle){
   for(int i =0 ; i<5 ; i++){
     delay(10);
    mpu6050.update();
-  double  angleCurrent = mpu6050.getGyroAngleX();
+  double angleCurrent = mpu6050.getGyroAngleX();
   double ecart = 0.5;
   while(!(angleCurrent-ecart <= angle && angle <= angleCurrent+ecart)){
     mpu6050.update();
