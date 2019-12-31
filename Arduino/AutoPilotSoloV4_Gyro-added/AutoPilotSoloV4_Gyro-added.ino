@@ -137,47 +137,14 @@ void loop(){
 }
 
 void avancer(){
-  mpu6050.update();
-  double angleCurrent = mpu6050.getGyroAngleX();
-  double ecart = 0.5;
-  while(!(angleCurrent-ecart <= steadyAngle && steadyAngle <= angleCurrent+ecart)){
-    mpu6050.update();
-    angleCurrent = mpu6050.getGyroAngleX();
-    if(angleCurrent >= steadyAngle){
-      droite();
-      lcd.setCursor(0, 1);
-      lcd.print("Droite");
-    }
-    if(angleCurrent <= steadyAngle){
-       gauche();
-      lcd.setCursor(0, 1);
-      lcd.print("Gauche");
-    }
-  }
-  
+  steady();  
   analogWrite(motorPin1, SPEED);
   analogWrite(motorPin2, 0);
   analogWrite(motorPin3, 0);
   analogWrite(motorPin4, SPEED);
 }
 void reculer(){
-  mpu6050.update();
-  double angleCurrent = mpu6050.getGyroAngleX();
-  double ecart = 0.5;
-  while(!(angleCurrent-ecart <= steadyAngle && steadyAngle <= angleCurrent+ecart)){
-    mpu6050.update();
-    angleCurrent = mpu6050.getGyroAngleX();
-    if(angleCurrent >= steadyAngle){
-      droite();
-      lcd.setCursor(0, 1);
-      lcd.print("Droite");
-    }
-    if(angleCurrent <= steadyAngle){
-       gauche();
-      lcd.setCursor(0, 1);
-      lcd.print("Gauche");
-    }
-  }
+  steady();
   analogWrite(motorPin1, 0);
   analogWrite(motorPin2, SPEED);
   analogWrite(motorPin3, SPEED);
@@ -314,3 +281,23 @@ void goToAngle(double angle){
   arreter();
   }
 }
+
+ void steady(){
+   mpu6050.update();
+  double angleCurrent = mpu6050.getGyroAngleX();
+  double ecart = 4;
+  while(!(angleCurrent-ecart <= steadyAngle && steadyAngle <= angleCurrent+ecart)){
+    mpu6050.update();
+    angleCurrent = mpu6050.getGyroAngleX();
+    if(angleCurrent >= steadyAngle){
+      droite();
+      lcd.setCursor(0, 1);
+      lcd.print("Droite");
+    }
+    if(angleCurrent <= steadyAngle){
+       gauche();
+      lcd.setCursor(0, 1);
+      lcd.print("Gauche");
+    }
+  }
+ }
