@@ -44,6 +44,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.JLabel;
 import javax.swing.ScrollPaneConstants;
+import java.awt.Font;
 
 public class Application {
 
@@ -55,6 +56,7 @@ public class Application {
 	private static JTextField tfGauche;
 	private static JTextField tfMilieu;
 	private static JTextField tfDroite;
+	private JPanel panel_Output = new JPanel();
 
 	/**
 	 * Launch the application.
@@ -100,16 +102,16 @@ public class Application {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 631, 662);
+		frame.setBounds(100, 100, 703, 662);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JPanel panel = new JPanel();
-		panel.requestFocusInWindow();
-		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Control", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel.setBounds(10, 0, 333, 310);
-		frame.getContentPane().add(panel);
-		panel.setLayout(null);
+		JPanel panelControl = new JPanel();
+		panelControl.requestFocusInWindow();
+		panelControl.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Control", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelControl.setBounds(7, 0, 333, 310);
+		frame.getContentPane().add(panelControl);
+		panelControl.setLayout(null);
 
 
 
@@ -135,7 +137,7 @@ public class Application {
 				send(0);
 			}
 		});
-		panel.add(btnUp);
+		panelControl.add(btnUp);
 
 		JButton btnDown = new JButton("Down");
 		btnDown.requestFocusInWindow();
@@ -159,7 +161,7 @@ public class Application {
 				send(0);
 			}
 		});
-		panel.add(btnDown);
+		panelControl.add(btnDown);
 
 		JButton btnRight = new JButton("Right");
 		btnRight.addActionListener(new ActionListener() {
@@ -182,7 +184,7 @@ public class Application {
 				send(0);
 			}
 		});
-		panel.add(btnRight);
+		panelControl.add(btnRight);
 
 		JButton btnLeft = new JButton("Left");
 		btnLeft.addActionListener(new ActionListener() {
@@ -205,7 +207,7 @@ public class Application {
 				send(0);
 			}
 		});
-		panel.add(btnLeft);
+		panelControl.add(btnLeft);
 
 
 		associerBoutonAvecImage(btnUp, "Up.png",0);
@@ -241,8 +243,8 @@ public class Application {
 				
 			}
 		});
-		chckbxModeClavier.setBounds(6, 280, 146, 23);
-		panel.add(chckbxModeClavier);
+		chckbxModeClavier.setBounds(6, 280, 321, 23);
+		panelControl.add(chckbxModeClavier);
 
 
 		JPanel panel_1 = new JPanel();
@@ -258,12 +260,12 @@ public class Application {
 		panel_1.add(btnAutopilotmode);
 
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(0, 365, 609, 247);
+		panel_2.setBounds(0, 365, 687, 247);
 		frame.getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 5, 589, 209);
+		scrollPane.setBounds(10, 5, 667, 209);
 		panel_2.add(scrollPane);
 
 		JTextArea txtrConsoleout = new JTextArea();
@@ -289,7 +291,7 @@ public class Application {
 				}
 			}
 		});
-		txtConsolein.setBounds(10, 225, 500, 20);
+		txtConsolein.setBounds(10, 225, 578, 20);
 		panel_2.add(txtConsolein);
 		txtConsolein.setColumns(10);
 
@@ -300,38 +302,43 @@ public class Application {
 				txtConsolein.setText("");
 			}
 		});
-		btnSend.setBounds(520, 225, 79, 23);
+		btnSend.setBounds(598, 224, 79, 23);
 		panel_2.add(btnSend);
+		panel_Output.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Outputs", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
+		panel_Output.setBounds(347, 0, 333, 310);
+		frame.getContentPane().add(panel_Output);
+		panel_Output.setLayout(null);
 		
 		tfGauche = new JTextField();
 		tfGauche.setEditable(false);
-		tfGauche.setBounds(353, 11, 96, 20);
-		frame.getContentPane().add(tfGauche);
+		tfGauche.setBounds(66, 54, 86, 20);
+		panel_Output.add(tfGauche);
 		tfGauche.setColumns(10);
 		
 		tfMilieu = new JTextField();
 		tfMilieu.setEditable(false);
-		tfMilieu.setBounds(353, 42, 96, 20);
-		frame.getContentPane().add(tfMilieu);
+		tfMilieu.setBounds(66, 85, 86, 20);
+		panel_Output.add(tfMilieu);
 		tfMilieu.setColumns(10);
 		
 		tfDroite = new JTextField();
 		tfDroite.setEditable(false);
-		tfDroite.setBounds(353, 73, 96, 20);
-		frame.getContentPane().add(tfDroite);
+		tfDroite.setBounds(66, 116, 86, 20);
+		panel_Output.add(tfDroite);
 		tfDroite.setColumns(10);
 		
-		JLabel lblGauche = new JLabel("Gauche");
-		lblGauche.setBounds(459, 14, 48, 14);
-		frame.getContentPane().add(lblGauche);
+		JLabel lblGauche = new JLabel("Left :");
+		lblGauche.setBounds(8, 57, 59, 14);
+		panel_Output.add(lblGauche);
 		
-		JLabel lblMilieu = new JLabel("Milieu");
-		lblMilieu.setBounds(459, 45, 48, 14);
-		frame.getContentPane().add(lblMilieu);
+		JLabel lblMilieu = new JLabel("Center :");
+		lblMilieu.setBounds(8, 88, 59, 14);
+		panel_Output.add(lblMilieu);
 		
-		JLabel lblDroite = new JLabel("Droite");
-		lblDroite.setBounds(459, 76, 48, 14);
-		frame.getContentPane().add(lblDroite);
+		JLabel lblDroite = new JLabel("Right :");
+		lblDroite.setBounds(8, 119, 59, 14);
+		panel_Output.add(lblDroite);
 		
 		JButton btnReceive = new JButton("Receive");
 		btnReceive.addActionListener(new ActionListener() {
@@ -340,8 +347,14 @@ public class Application {
 				dataRD.start();
 			}
 		});
-		btnReceive.setBounds(353, 104, 89, 23);
-		frame.getContentPane().add(btnReceive);
+		btnReceive.setBounds(66, 147, 86, 23);
+		panel_Output.add(btnReceive);
+		
+		JLabel lblNewLabel = new JLabel("Distance sensors ");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(8, 28, 144, 14);
+		panel_Output.add(lblNewLabel);
+		
 	}
 	public void associerBoutonAvecImage(JButton leBouton, String fichierImage,int nbRotation) {
 		Image imgLue = null;
@@ -479,6 +492,4 @@ public class Application {
 	public static void setTfDroite(JTextField tfDroite) {
 		Application.tfDroite = tfDroite;
 	}
-
-	
 }
