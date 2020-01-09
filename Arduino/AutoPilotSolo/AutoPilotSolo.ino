@@ -10,7 +10,8 @@ const int motorPin1  = 11;
 const int motorPin2  = 10;
 const int motorPin3  = 9;
 const int motorPin4  = 6;
-const int SPEED = 140;
+const int SPEED = 200;
+const int ROTATION_SPEED = 100;
 //Sensors related settings
 const int nbSensors = 3;
 const int pins[nbSensors*2] = {23,22,38,39,37,36};
@@ -150,16 +151,16 @@ void arreter(){
   analogWrite(motorPin4, 0);
 }
 void droite(){
-  analogWrite(motorPin1, SPEED);
-  analogWrite(motorPin2, 0);
-  analogWrite(motorPin3, SPEED);
-  analogWrite(motorPin4, 0);
+  analogWrite(motorPin1, 0);
+  analogWrite(motorPin2, ROTATION_SPEED);
+  analogWrite(motorPin3, 0);
+  analogWrite(motorPin4, ROTATION_SPEED);
 }
 void gauche(){
-  analogWrite(motorPin1, 0);
-  analogWrite(motorPin2, SPEED);
-  analogWrite(motorPin3, 0);
-  analogWrite(motorPin4, SPEED);
+  analogWrite(motorPin1, ROTATION_SPEED);
+  analogWrite(motorPin2, 0);
+  analogWrite(motorPin3, ROTATION_SPEED);
+  analogWrite(motorPin4, 0);
 }
 
 //Returns the distance of an ultrasound detector in front of the car
