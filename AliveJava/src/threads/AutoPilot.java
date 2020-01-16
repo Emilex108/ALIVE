@@ -66,12 +66,13 @@ public class AutoPilot extends Thread {
 
 	}
 
+	// TODO : Lire '<' puis chiffre puis '>' (Comprendre ce que Jsoup.parse a tous les niveaux
+	
 	public String receive() {
-		String val = "";
-		String place = "";
-		int placeInt = 0;
+		/*String val = "";
 		try {
 			val = Jsoup.parse(inStream.read() + "").text();
+			
 			place = Jsoup.parse(inStream.read() + "").text();
 			if(!(place == null)) {
 				placeInt = Integer.parseInt(place);
@@ -90,7 +91,7 @@ public class AutoPilot extends Thread {
 		} catch (IOException e) {
 			System.out.println("Problem receiving");
 			return "Error";
-		}
+		}*/
 	}
 
 	private boolean checkgCollision() {

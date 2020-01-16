@@ -124,10 +124,13 @@ byte getDistance(int i){
 //Updates the Distance Panel of the Java Application by BT
 
 void envoyerDistance(){
+  Serial.write('<');
   Serial.write(getDistance(0));
-  Serial.write('A');
+  Serial.write('>');
+  Serial.write('<');
   Serial.write(getDistance(1));
-  Serial.write('G');
+  Serial.write('>');
+  Serial.write('<');
   Serial.write(getDistance(2));
-  Serial.write('D');
+  Serial.write('>');
 }
