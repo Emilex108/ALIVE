@@ -1,0 +1,5 @@
+wood cutting dimension(12): 40cm X 20cm
+wood cutting dimension(4): 40cm X 20cm - curved wood
+model straight wall(8) : 6cm height
+model corner wall (5): 6cm height
+model corner wall reverse(5): 6cm height
