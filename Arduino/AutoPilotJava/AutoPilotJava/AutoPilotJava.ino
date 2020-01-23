@@ -6,8 +6,8 @@ const int motorPin1  = 11;
 const int motorPin2  = 10;
 const int motorPin3  = 9;
 const int motorPin4  = 6;
-const int SPEED = 200;
-const int ROTATION_SPEED = 100;
+const int SPEED = 70;
+const int ROTATION_SPEED = 70;
 //Sensors related settings
 const int nbSensors = 3;
 const int pins[nbSensors*2] = {23,22,38,39,37,36};
@@ -47,7 +47,7 @@ void setup(){
 void loop(){
   //This makes sure the data of the gyroscope is up to date
   //Checks to see if there are any commands over BT available and that Autopilot hasn't been set ON (TODO Check to replace with Switch)
-  if (Serial.available()>0 && !autopilot) {
+  if (Serial.available()>0) {
     val = Serial.read();
     //1 = Forward, 2 = Right, 3 = Backwards, 4 = Left, 0 = Stop, 5 = Autopilot ON, 6 = Updates Distance Panel
     if(val == 1){
@@ -60,19 +60,15 @@ void loop(){
       gauche();
     }else if(val == 0){
       arreter();
-    }else if(val == 5){
-      autopilot = true;
-    }else if(val == 6){
-      envoyerDistance();
+    }else if(val == 100){
+      Serial.write(getDistance(0));
+    }else if(val == 101){
+      Serial.write(getDistance(1));
+    }else if(val == 102){
+      Serial.write(getDistance(2));
     }
-  }
-  //AutoPilot script itself
-  if(autopilot){
-    envoyerDistance();
-    delay(50);
-  }
 }
-
+}
 void avancer(){
   analogWrite(motorPin1, SPEED);
   analogWrite(motorPin2, 0);
@@ -122,15 +118,3 @@ byte getDistance(int i){
 }
 
 //Updates the Distance Panel of the Java Application by BT
-
-void envoyerDistance(){
-  Serial.write('<');
-  Serial.write(getDistance(0));
-  Serial.write('>');
-  Serial.write('<');
-  Serial.write(getDistance(1));
-  Serial.write('>');
-  Serial.write('<');
-  Serial.write(getDistance(2));
-  Serial.write('>');
-}

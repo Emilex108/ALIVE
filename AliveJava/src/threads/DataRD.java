@@ -14,6 +14,7 @@ public class DataRD extends Thread{
 	private JTextField tfGauche;
 	private JTextField tfMilieu;
 	private JTextField tfDroite;
+	private String val = "";
 	
 	public DataRD(OutputStream outStream, InputStream inStream, JTextField tfGauche, JTextField tfMilieu, JTextField tfDroite) {
 		this.outStream = outStream;
@@ -24,12 +25,11 @@ public class DataRD extends Thread{
 	}
 	
 	public void run() {
+		send(5);
+		await(20);
 		while(true) {
-		send(6);
-		await(200);
-		receive();
-		receive();
-		receive();
+			System.out.println(receive());
+			await(30);
 		}
 	}
 	
@@ -50,22 +50,10 @@ public class DataRD extends Thread{
 		}
 	}
 	public String receive() {
-		String val = "";
-		String place = "";
+		String tempval = "";
 		try {
-			val = Jsoup.parse(inStream.read()+"").text();
-			place = Jsoup.parse(inStream.read()+"").text();
-			if(place.equals("G")) {
-				tfGauche.setText(val);
-			}else if(place.equals("A")) {
-				tfMilieu.setText(val);
-			}else if(place.equals("D")) {
-				tfDroite.setText(val);
-			}else {
-				System.out.println("VALEUR NON RECONNUE");
-			}
-			System.out.println(val);
-			return val;
+			tempval = Jsoup.parse(inStream.read()+"").text();
+			return tempval;
 		} catch (IOException e) {
 			System.out.println("Problem receiving");
 			return "Error";

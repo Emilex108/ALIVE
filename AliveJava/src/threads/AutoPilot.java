@@ -68,7 +68,15 @@ public class AutoPilot extends Thread {
 
 	// TODO : Lire '<' puis chiffre puis '>' (Comprendre ce que Jsoup.parse a tous les niveaux
 	
-	public String receive() {
+	public String receive(){
+		String val = "";
+		try {
+			val = Jsoup.parse(inStream.read()+ "").text();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(val);
+		return val;
 		/*String val = "";
 		try {
 			val = Jsoup.parse(inStream.read() + "").text();

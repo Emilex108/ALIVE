@@ -6,7 +6,7 @@ const int motorPin1  = 11;
 const int motorPin2  = 10;
 const int motorPin3  = 9;
 const int motorPin4  = 6;
-const int SPEED = 200;
+const int SPEED = 100;
 const int ROTATION_SPEED = 100;
 //Sensors related settings
 const int nbSensors = 3;

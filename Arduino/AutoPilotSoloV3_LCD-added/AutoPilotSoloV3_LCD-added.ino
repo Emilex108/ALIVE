@@ -215,5 +215,5 @@ void display(){
   }
   lcd.setCursor(0, 1);
    lcd.print(toDisplay);
-  delay(50);
+  delay(80);
 }
