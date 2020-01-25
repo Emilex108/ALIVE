@@ -102,7 +102,7 @@ public class Application {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 703, 662);
+		frame.setBounds(100, 100, 1091, 662);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -247,9 +247,9 @@ public class Application {
 		panelControl.add(chckbxModeClavier);
 
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 321, 353, 33);
-		frame.getContentPane().add(panel_1);
+		JPanel panelBTN = new JPanel();
+		panelBTN.setBounds(0, 321, 353, 33);
+		frame.getContentPane().add(panelBTN);
 
 		JButton btnAutopilotmode = new JButton("Activate Auto-pilot");
 		btnAutopilotmode.addActionListener(new ActionListener() {
@@ -257,16 +257,16 @@ public class Application {
 				ap.start();
 			}
 		});
-		panel_1.add(btnAutopilotmode);
+		panelBTN.add(btnAutopilotmode);
 
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(0, 365, 687, 247);
-		frame.getContentPane().add(panel_2);
-		panel_2.setLayout(null);
+		JPanel panelConsole = new JPanel();
+		panelConsole.setBounds(0, 365, 532, 247);
+		frame.getContentPane().add(panelConsole);
+		panelConsole.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 5, 667, 209);
-		panel_2.add(scrollPane);
+		scrollPane.setBounds(10, 5, 512, 209);
+		panelConsole.add(scrollPane);
 
 		JTextArea txtrConsoleout = new JTextArea();
 		scrollPane.setViewportView(txtrConsoleout);
@@ -291,8 +291,8 @@ public class Application {
 				}
 			}
 		});
-		txtConsolein.setBounds(10, 225, 578, 20);
-		panel_2.add(txtConsolein);
+		txtConsolein.setBounds(10, 225, 423, 20);
+		panelConsole.add(txtConsolein);
 		txtConsolein.setColumns(10);
 
 		JButton btnSend = new JButton("Send");
@@ -302,11 +302,11 @@ public class Application {
 				txtConsolein.setText("");
 			}
 		});
-		btnSend.setBounds(598, 224, 79, 23);
-		panel_2.add(btnSend);
+		btnSend.setBounds(443, 224, 79, 23);
+		panelConsole.add(btnSend);
 		panel_Output.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Outputs", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
-		panel_Output.setBounds(347, 0, 333, 310);
+		panel_Output.setBounds(732, 0, 333, 310);
 		frame.getContentPane().add(panel_Output);
 		panel_Output.setLayout(null);
 		
@@ -354,6 +354,10 @@ public class Application {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel.setBounds(8, 28, 144, 14);
 		panel_Output.add(lblNewLabel);
+		
+		CarPanel carPanel = new CarPanel(0, 0, 0);
+		carPanel.setBounds(350, 11, 371, 297);
+		frame.getContentPane().add(carPanel);
 		
 	}
 	public void associerBoutonAvecImage(JButton leBouton, String fichierImage,int nbRotation) {
