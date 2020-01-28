@@ -6,8 +6,8 @@ const int motorPin1  = 11;
 const int motorPin2  = 10;
 const int motorPin3  = 9;
 const int motorPin4  = 6;
-const int SPEED = 70;
-const int ROTATION_SPEED = 70;
+const int SPEED = 130;
+const int ROTATION_SPEED = 100;
 //Sensors related settings
 const int nbSensors = 3;
 const int pins[nbSensors*2] = {23,22,38,39,37,36};
@@ -66,8 +66,43 @@ void loop(){
       Serial.write(getDistance(1));
     }else if(val == 102){
       Serial.write(getDistance(2));
+    }else if(val == 5){
+      autopilot = true;
+    }else if(val == 6){
+      autopilot = false;
     }
-}
+  }
+
+  if(autopilot){
+    d = collisionDroite();
+    a = collisionAvant();
+    g = collisionGauche();
+    if(d && a && g){
+      reculer();
+    }else if(g && a && !d){
+      droite();
+    }else if(!g && a && d){
+      gauche();
+    }else if(g && !a && d){
+      avancer();
+    }else if(!g && !a && d){
+      gauche();
+    }else if (g && !a && !d){
+      droite();
+    }else if(!g && !a && !d){
+      avancer();
+    }else if(!g && a && !d){
+      distDroite = getDistance(2);
+      distGauche = getDistance(1);
+      if(distDroite < distGauche){
+        gauche();
+      }else if(distGauche < distDroite){
+        droite();
+      }else{
+        reculer();
+      }
+    }
+  }
 }
 void avancer(){
   analogWrite(motorPin1, SPEED);
@@ -99,7 +134,30 @@ void gauche(){
   analogWrite(motorPin3, ROTATION_SPEED);
   analogWrite(motorPin4, 0);
 }
-
+boolean collisionDroite(){
+  distDroite = getDistance(2);
+  if(distDroite < detection){
+    return true;
+  }else{
+    return false;
+  }
+}
+boolean collisionAvant(){
+  distAvant = getDistance(0);
+  if(distAvant < detectionAvant){
+    return true;
+  }else{
+    return false;
+  }
+}
+boolean collisionGauche(){
+  distGauche = getDistance(1);
+  if(distGauche < detection){
+    return true;
+  }else{
+    return false;
+  }
+}
 //Returns the distance of an ultrasound detector in front of the car
 
 byte getDistance(int i){
@@ -116,5 +174,3 @@ byte getDistance(int i){
   // Calculating the distance
   return duration*0.034/2;
 }
-
-//Updates the Distance Panel of the Java Application by BT
