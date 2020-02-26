@@ -72,9 +72,7 @@ void loop(){
   mpu6050.update();
   
  // displayCollision();
-  displayAngle();
- 
-  //This makes sure the data of the gyroscope is up to date
+  displayAccel();
   //Checks to see if there are any commands over BT available and that Autopilot hasn't been set ON (TODO Check to replace with Switch)
   if (Serial.available()>0 && !autopilot) {
     val = Serial.read();
@@ -259,6 +257,18 @@ void displayAngle(){
   lcd.print("Angle : ");
   lcd.print(mpu6050.getGyroAngleX());
   delay(50);
+}
+
+void displayAccel(){
+   mpu6050.update();
+   lcd.clear();
+  // set the cursor to column 0, line 1
+  // (note: line 1 is the second row, since counting begins with 0):
+  lcd.setCursor(0, 0);
+  // print the number of seconds since reset:
+  lcd.print("Accel : ");
+  lcd.print(mpu6050.getAccZ());
+  delay(300);
 }
 
 void goToAngle(double angle){

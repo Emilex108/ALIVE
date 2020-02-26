@@ -16,8 +16,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import com.fazecast.jSerialComm.SerialPort;
-
 import threads.AutoPilot;
 import threads.DataRD;
 import utillities.TextAreaOutputStream;
@@ -32,18 +30,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.URL;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.JCheckBox;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.JLabel;
-import javax.swing.ScrollPaneConstants;
 import java.awt.Font;
 
 public class Application {
@@ -57,7 +55,7 @@ public class Application {
 	private static JTextField tfMilieu;
 	private static JTextField tfDroite;
 	private JPanel panel_Output = new JPanel();
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -67,20 +65,10 @@ public class Application {
 				try {
 					Application window = new Application();
 					window.frame.setVisible(true);
-					SerialPort sp = SerialPort.getCommPort("com7");
-					sp.setComPortParameters(115200, 8, 1, 0);
-					sp.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 0, 0);
-
-					if(sp.openPort()) {
-						System.out.println("Port open");
-					}else {
-						System.out.println("Port closed");
-						return;
-					}
-
-					outStream = sp.getOutputStream();
-					inStream = sp.getInputStream();
-
+					Socket socket = new Socket("192.168.0.100", 1001);
+					System.out.println("Connected");
+					outStream = socket.getOutputStream();
+					inStream = socket.getInputStream();
 					ap = new AutoPilot(outStream, inStream);
 					System.out.println("Ready");
 				} catch (Exception e) {
@@ -250,14 +238,22 @@ public class Application {
 		JPanel panelBTN = new JPanel();
 		panelBTN.setBounds(0, 321, 353, 33);
 		frame.getContentPane().add(panelBTN);
-
-		JButton btnAutopilotmode = new JButton("Activate Auto-pilot");
-		btnAutopilotmode.addActionListener(new ActionListener() {
+		
+				JButton btnAutopilotmode = new JButton("Activate Auto-pilot");
+				btnAutopilotmode.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						ap.start();
+					}
+				});
+				panelBTN.add(btnAutopilotmode);
+		
+		JButton btnActivateAi = new JButton("Activate AI");
+		btnActivateAi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ap.start();
+				send(5);
 			}
 		});
-		panelBTN.add(btnAutopilotmode);
+		panelBTN.add(btnActivateAi);
 
 		JPanel panelConsole = new JPanel();
 		panelConsole.setBounds(0, 365, 532, 247);
@@ -355,9 +351,9 @@ public class Application {
 		lblNewLabel.setBounds(8, 28, 144, 14);
 		panel_Output.add(lblNewLabel);
 		
-		CarPanel carPanel = new CarPanel(0, 0, 0);
-		carPanel.setBounds(350, 11, 371, 297);
-		frame.getContentPane().add(carPanel);
+		//CarPanel carPanel = new CarPanel(0, 0, 0);
+	//	carPanel.setBounds(350, 11, 371, 297);
+		//frame.getContentPane().add(carPanel);
 		
 	}
 	public void associerBoutonAvecImage(JButton leBouton, String fichierImage,int nbRotation) {

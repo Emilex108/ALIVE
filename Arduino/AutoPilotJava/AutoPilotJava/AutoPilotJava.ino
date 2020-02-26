@@ -1,12 +1,17 @@
 /*
 AutoPilot Script on Arduino for ALIVE Project made by Émile Gagné & Guillaume Blain
 */
+//Libraries for the gyroscope (angle)
+#include <MPU6050_tockn.h>
+#include <Wire.h>
+//setting the gyroscope
+MPU6050 mpu6050(Wire);
 //Setting the Arduino pins for the motors
 const int motorPin1  = 11;
 const int motorPin2  = 10;
 const int motorPin3  = 9;
 const int motorPin4  = 6;
-const int SPEED = 130;
+int SPEED = 110;
 const int ROTATION_SPEED = 100;
 //Sensors related settings
 const int nbSensors = 3;
@@ -26,6 +31,11 @@ long duration;
 int val = 0;
 boolean d,a,g;
 long b = 0;
+int angle;
+int anglePositive = 1;
+int nbDemiTour = 0;
+boolean isRolling = true;
+
 
 void setup(){
   //Set pins as outputs or inputs
@@ -41,11 +51,27 @@ void setup(){
   pinMode(pins[5], INPUT);
   //Serial on 115200 is for the bluetooth (TODO Try putting it back to 9600 or around, to avoid Unicode problem)
   Serial.begin(115200);
+  Wire.begin();
+  mpu6050.begin();
+  mpu6050.calcGyroOffsets();
 }
 
 
 void loop(){
   //This makes sure the data of the gyroscope is up to date
+  nbDemiTour = 0;
+  mpu6050.update(); 
+  angle = (int) mpu6050.getGyroAngleX();
+  if(angle < 0){
+    angle = -angle;
+    anglePositive = 0;
+  }else{
+    anglePositive = 1;
+  }
+  if(angle > 180){
+    nbDemiTour = angle/180;
+    angle = angle%180;
+  }
   //Checks to see if there are any commands over BT available and that Autopilot hasn't been set ON (TODO Check to replace with Switch)
   if (Serial.available()>0) {
     val = Serial.read();
@@ -66,12 +92,29 @@ void loop(){
       Serial.write(getDistance(1));
     }else if(val == 102){
       Serial.write(getDistance(2));
+    }else if(val == 103){
+     Serial.write(anglePositive);
+    }else if(val == 104){
+     Serial.write(angle);
+    }else if(val == 105){
+     Serial.write(nbDemiTour);
+    }else if(val == 106){
+     if(isRolling){
+      Serial.write(1);
+     }else{
+      Serial.write(0);
+     }
+    }else if(val == 33){
+      if(Serial.available() > 0){
+        SPEED  = Serial.read();
+      }
     }else if(val == 5){
       autopilot = true;
     }else if(val == 6){
       autopilot = false;
     }
   }
+
 
   if(autopilot){
     d = collisionDroite();
@@ -104,7 +147,9 @@ void loop(){
     }
   }
 }
+
 void avancer(){
+  isRolling = true;
   analogWrite(motorPin1, SPEED);
   analogWrite(motorPin2, 0);
   analogWrite(motorPin3, 0);
@@ -117,18 +162,21 @@ void reculer(){
   analogWrite(motorPin4, 0);
 }
 void arreter(){
+  isRolling = false;
   analogWrite(motorPin1, 0);
   analogWrite(motorPin2, 0);
   analogWrite(motorPin3, 0);
   analogWrite(motorPin4, 0);
 }
 void droite(){
+  isRolling = false;
   analogWrite(motorPin1, 0);
   analogWrite(motorPin2, ROTATION_SPEED);
   analogWrite(motorPin3, 0);
   analogWrite(motorPin4, ROTATION_SPEED);
 }
 void gauche(){
+  isRolling = false;
   analogWrite(motorPin1, ROTATION_SPEED);
   analogWrite(motorPin2, 0);
   analogWrite(motorPin3, ROTATION_SPEED);
