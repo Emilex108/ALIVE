@@ -23,8 +23,8 @@ const int pins[nbSensors*2] = {23,22,38,39,37,36};
 //This is remotely enabled by bluetooth to active the autopilot script
 boolean autopilot = false;
 //Those are the detections limits in centimeters (It will detect an object if closer to 15 cm) The detectionB is meant to debug curved or angular objects
-const int detection = 40;
-const int detectionAvant = 15;
+const int detection = 30;
+const int detectionAvant = 10;
 const int detectionB = 400;
 //Definition of the distances of the captors (TODO Replace by Array to be more flexible)
 int distAvant,distGauche,distDroite;
