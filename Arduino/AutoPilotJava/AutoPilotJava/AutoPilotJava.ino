@@ -15,8 +15,8 @@ const int motorPin2  = 10;
 const int motorPin3  = 9;
 const int motorPin4  = 6;
 int SPEED = 110;
-const int ROTATION_SPEED = 90;
-const int ROTATION_FORCE = 75;
+const int ROTATION_SPEED = 75;
+const int ROTATION_FORCE = 70;
 //Sensors related settings
 const int nbSensors = 3;
 const int pins[nbSensors*2] = {23,22,38,39,37,36};
@@ -94,7 +94,6 @@ void loop(){
   //Checks to see if there are any commands over BT available and that Autopilot hasn't been set ON (TODO Check to replace with Switch)
   if (Serial.available()>0) {
     val = Serial.read();
-    //1 = Forward, 2 = Right, 3 = Backwards, 4 = Left, 0 = Stop, 5 = Autopilot ON, 6 = Updates Distance Panel
     if(val == 1){
       avancer();
     }else if(val == 2){
